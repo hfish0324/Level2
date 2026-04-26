@@ -20,7 +20,7 @@ function GameObject() {
         ctx.fill();
     };
 
-    // Draw Rectangle (for paddle)
+    // Draw the paddle
     this.drawRect = function () {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
