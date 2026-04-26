@@ -9,11 +9,4 @@ function GameObject() {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     };
-
-    this.drawCircle = function () {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    };
 }
