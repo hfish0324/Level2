@@ -11,6 +11,9 @@ player1.height = 100;
 player1.color = "blue";
 player1.speed = 5;
 
+// Ball
+var ball = new Ball();
+
 // Animate function
 function animate() {
     // Clear screen
@@ -36,6 +39,11 @@ function animate() {
 
     // Draw paddle
     player1.drawRect();
+
+    // Draw ball
+    ball.move();
+    ball.draw();
+    this.size = 40;
 }
 
 // Game loop
