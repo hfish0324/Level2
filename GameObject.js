@@ -5,24 +5,15 @@ function GameObject() {
     this.height = 50;
     this.color = "white";
 
-    // Draw Circle
-    this.drawCircle = function () {
-        ctx.beginPath();
-        ctx.arc(
-            this.x,
-            this.y,
-            this.width / 2,
-            0,
-            Math.PI * 2
-        );
-        ctx.closePath();
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    };
-
-    // Draw the paddle
     this.drawRect = function () {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
+    };
+
+    this.drawCircle = function () {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
     };
 }
