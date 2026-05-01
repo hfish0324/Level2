@@ -4,8 +4,8 @@ function Ball() {
     this.size = 35;
     this.color = "red";
 
-    this.vx = -4;   
-    this.vy = 0;    
+    this.vx = -4;
+    this.vy = 0;
 
     this.draw = function () {
         ctx.beginPath();
@@ -18,17 +18,12 @@ function Ball() {
         this.x += this.vx;
         this.y += this.vy;
 
-        // Top & Bottom Wall (bounce)
+        // Top & Bottom Wall Bounce
         if (this.y - this.size < 0 || this.y + this.size > canvas.height) {
             this.vy *= -1;
         }
 
-        // right wall (bounce)
-        if (this.x + this.size > canvas.width) {
-            this.vx *= -1;
-        }
-
-        // 3 zone paddle collision
+        // PLAYER 1 COLLISION
         if (
             this.x - this.size < player1.x + player1.width &&
             this.x + this.size > player1.x &&
@@ -38,17 +33,17 @@ function Ball() {
             var hitPos = this.y - player1.y;
             var third = player1.height / 3;
 
-            // top third = up-left
+            // Top third
             if (hitPos < third) {
                 this.vx = 4;
                 this.vy = -4;
             }
-            // Middle third = straight bounce
+            // Middle third
             else if (hitPos < third * 2) {
-                this.vx *= -1;
+                this.vx = 4;
                 this.vy = 0;
             }
-            // Bottom third = down-left
+            // Bottom third
             else {
                 this.vx = 4;
                 this.vy = 4;
@@ -57,8 +52,37 @@ function Ball() {
             this.x = player1.x + player1.width + this.size;
         }
 
-        // left side = You lose
-        if (this.x + this.size < 0) {
+        // PLAYER 2 COLLISION
+        if (
+            this.x + this.size > player2.x &&
+            this.x - this.size < player2.x + player2.width &&
+            this.y > player2.y &&
+            this.y < player2.y + player2.height
+        ) {
+            var hitPos = this.y - player2.y;
+            var third = player2.height / 3;
+
+            // Top third
+            if (hitPos < third) {
+                this.vx = -4;
+                this.vy = -4;
+            }
+            // Middle third
+            else if (hitPos < third * 2) {
+                this.vx = -4;
+                this.vy = 0;
+            }
+            // Bottom third
+            else {
+                this.vx = -4;
+                this.vy = 4;
+            }
+
+            this.x = player2.x - this.size;
+        }
+
+        // Ball leaves left or right side = reset
+        if (this.x + this.size < 0 || this.x - this.size > canvas.width) {
             resetGame();
         }
     };
