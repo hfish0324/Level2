@@ -1,7 +1,7 @@
 function Ball() {
     this.x = canvas.width / 2;
     this.y = canvas.height / 2;
-    this.size = 8;
+    this.size = 20;
     this.vx = -4;
     this.vy = 0;
 }
