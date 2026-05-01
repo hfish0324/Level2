@@ -43,6 +43,22 @@ function animate() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Center Line
+    ctx.save();
+
+    ctx.strokeStyle = "yellow";
+    ctx.beginPath();
+
+    ctx.moveTo(canvas.width / 2, 0);
+    ctx.lineTo(canvas.width / 2, canvas.height);
+
+    ctx.closePath();
+
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.restore();
+
     // Player 1 movement
     if (wPressed) player1.y -= player1.speed;
     if (sPressed) player1.y += player1.speed;
