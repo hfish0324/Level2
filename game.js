@@ -38,6 +38,73 @@ var resetGame = function () {
     ball.vy = 0;
 };
 
+// Ball Logic
+Ball.prototype.move = function () {
+
+    this.x += this.vx;
+    this.y += this.vy;
+
+    // Top / Bottom wall Bounce
+    if (this.y - this.size < 0 || this.y + this.size > canvas.height) {
+        this.vy *= -1;
+    }
+
+    // Player 1 Paddle
+    if (
+        this.x - this.size < player1.x + player1.width &&
+        this.x > player1.x &&
+        this.y > player1.y &&
+        this.y < player1.y + player1.height
+    ) {
+        var hitPos = (this.y - player1.y) / player1.height;
+
+        this.vx = Math.abs(this.vx); // always send right
+
+        if (hitPos < 0.33) {
+            this.vy = -4;
+        } else if (hitPos < 0.66) {
+            this.vy = 0;
+        } else {
+            this.vy = 4;
+        }
+
+        this.x = player1.x + player1.width + this.size;
+    }
+
+    // Player 2 Paddle
+    if (
+        this.x + this.size > player2.x &&
+        this.x < player2.x + player2.width &&
+        this.y > player2.y &&
+        this.y < player2.y + player2.height
+    ) {
+        var hitPos = (this.y - player2.y) / player2.height;
+
+        this.vx = -Math.abs(this.vx); // always send left
+
+        if (hitPos < 0.33) {
+            this.vy = -4;
+        } else if (hitPos < 0.66) {
+            this.vy = 0;
+        } else {
+            this.vy = 4;
+        }
+
+        this.x = player2.x - this.size;
+    }
+
+    // Score
+    if (this.x < 0) {
+        p2Wins++;
+        resetGame();
+    }
+
+    if (this.x > canvas.width) {
+        p1Wins++;
+        resetGame();
+    }
+};
+
 // Game Loop
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -50,22 +117,22 @@ function animate() {
     if (upPressed) player2.y -= player2.speed;
     if (downPressed) player2.y += player2.speed;
 
-    // Player 1 on screen
+    // Clamp Player 1
     if (player1.y < 0) player1.y = 0;
     if (player1.y + player1.height > canvas.height) {
         player1.y = canvas.height - player1.height;
     }
 
-    // Player 2 on screen
+    // Clamp Player 2
     if (player2.y < 0) player2.y = 0;
     if (player2.y + player2.height > canvas.height) {
         player2.y = canvas.height - player2.height;
     }
 
-    // Update Ball
+    // Update ball
     ball.move();
 
-    // Draw paddles + ball
+    // Draw objects
     player1.drawRect();
     player2.drawRect();
     ball.draw();
@@ -78,7 +145,7 @@ function animate() {
     ctx.fillText("Player 1 | Player 2", canvas.width / 2, 25);
 
     ctx.font = "22px Courier New";
-    ctx.fillText(p1Wins + "-" + p2Wins, canvas.width / 2, 50);
+    ctx.fillText(p1Wins + " - " + p2Wins, canvas.width / 2, 50);
 }
 
 // Run game
